@@ -7,7 +7,6 @@ import com.pirqana.bookrental.application.dto.editorial.mapper.EditorialSaveMapp
 import com.pirqana.bookrental.application.service.EditorialService;
 import com.pirqana.bookrental.domain.entity.Editorial;
 import com.pirqana.bookrental.infrastructure.repository.EditorialRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,18 +15,20 @@ import java.util.Optional;
 @Service
 public class EditorialServiceImpl implements EditorialService {
 
-    @Autowired
     private EditorialRepository editorialRepository;
 
-    @Autowired
     private EditorialMapper editorialMapper;
 
-    @Autowired
     private EditorialSaveMapper editorialSaveMapper;
+
+    public EditorialServiceImpl(EditorialRepository editorialRepository, EditorialMapper editorialMapper, EditorialSaveMapper editorialSaveMapper) {
+        this.editorialRepository = editorialRepository;
+        this.editorialMapper = editorialMapper;
+        this.editorialSaveMapper = editorialSaveMapper;
+    }
 
     @Override
     public List<EditorialDto> findAll() {
-        // List<Editorial> editoriales = (List<Editorial>) editorialRepository.findAll();
         List<Editorial> editoriales = editorialRepository.findByEstadoOrderByIdDesc(true).get();
         return editorialMapper.toEditorialDtos(editoriales);
     }

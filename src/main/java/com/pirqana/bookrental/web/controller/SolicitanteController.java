@@ -3,7 +3,6 @@ package com.pirqana.bookrental.web.controller;
 import com.pirqana.bookrental.application.dto.solicitante.SolicitanteDto;
 import com.pirqana.bookrental.application.dto.solicitante.SolicitanteSaveDto;
 import com.pirqana.bookrental.application.service.SolicitanteService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -13,8 +12,11 @@ import java.util.Optional;
 @RequestMapping("/solicitantes")
 public class SolicitanteController {
 
-    @Autowired
     private SolicitanteService solicitanteService;
+
+    public SolicitanteController(SolicitanteService solicitanteService) {
+        this.solicitanteService = solicitanteService;
+    }
 
     @GetMapping
     public List<SolicitanteDto> getAll() {

@@ -3,7 +3,6 @@ package com.pirqana.bookrental.web.controller;
 import com.pirqana.bookrental.application.dto.editorial.EditorialDto;
 import com.pirqana.bookrental.application.dto.editorial.EditorialSaveDto;
 import com.pirqana.bookrental.application.service.EditorialService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -13,8 +12,11 @@ import java.util.Optional;
 @RequestMapping("/editoriales")
 public class EditorialController {
 
-    @Autowired
     private EditorialService editorialService;
+
+    public EditorialController(EditorialService editorialService) {
+        this.editorialService = editorialService;
+    }
 
     @GetMapping
     public List<EditorialDto> getAll() {
