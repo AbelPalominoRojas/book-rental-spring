@@ -3,10 +3,13 @@ package com.pirqana.bookrental.web.controller;
 import com.pirqana.bookrental.application.dto.editorial.EditorialDto;
 import com.pirqana.bookrental.application.dto.editorial.EditorialSaveDto;
 import com.pirqana.bookrental.application.service.EditorialService;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/editoriales")
@@ -19,27 +22,39 @@ public class EditorialController {
     }
 
     @GetMapping
-    public List<EditorialDto> getAll() {
-        return editorialService.findAll();
+    public ResponseEntity<List<EditorialDto>> getAll() {
+        return ResponseEntity.ok(editorialService.findAll());
     }
 
     @GetMapping("/{id}")
-    public Optional<EditorialDto> findById(@PathVariable("id") Long id) {
-        return editorialService.findById(id);
+    @ApiResponse(responseCode = "200")
+    @ApiResponse(responseCode = "400", description = "Invalid id", content = @Content)
+    @ApiResponse(responseCode = "404", description = "Not found", content = @Content)
+    public ResponseEntity<EditorialDto> findById(@PathVariable("id") Long id) {
+        return editorialService.findById(id)
+                .map(editorialDto -> new ResponseEntity<>(editorialDto, HttpStatus.OK))
+                .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
     @PostMapping
-    public EditorialDto create(@RequestBody EditorialSaveDto editorialSaveDto) {
-        return editorialService.create(editorialSaveDto);
+    @ApiResponse(responseCode = "200")
+    public ResponseEntity<EditorialDto> create(@RequestBody EditorialSaveDto editorialSaveDto) {
+        return ResponseEntity.ok(editorialService.create(editorialSaveDto));
     }
 
     @PutMapping("/{id}")
-    public EditorialDto edit(@PathVariable("id") Long id, @RequestBody EditorialSaveDto editorialSaveDto) {
-        return editorialService.edit(id, editorialSaveDto);
+    @ApiResponse(responseCode = "200")
+    @ApiResponse(responseCode = "400", description = "Invalid id", content = @Content)
+    @ApiResponse(responseCode = "404", description = "Not found", content = @Content)
+    public ResponseEntity<EditorialDto> edit(@PathVariable("id") Long id, @RequestBody EditorialSaveDto editorialSaveDto) {
+        return ResponseEntity.ok(editorialService.edit(id, editorialSaveDto));
     }
 
     @DeleteMapping("/{id}")
-    public EditorialDto disable(@PathVariable("id") Long id) {
-        return editorialService.disable(id);
+    @ApiResponse(responseCode = "200")
+    @ApiResponse(responseCode = "400", description = "Invalid id", content = @Content)
+    @ApiResponse(responseCode = "404", description = "Not found", content = @Content)
+    public ResponseEntity<EditorialDto> disable(@PathVariable("id") Long id) {
+        return ResponseEntity.ok(editorialService.disable(id));
     }
 }
