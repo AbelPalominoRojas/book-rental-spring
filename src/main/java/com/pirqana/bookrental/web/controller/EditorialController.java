@@ -1,10 +1,13 @@
 package com.pirqana.bookrental.web.controller;
 
 import com.pirqana.bookrental.application.dto.editorial.EditorialDto;
+import com.pirqana.bookrental.application.dto.editorial.EditorialFilterDto;
 import com.pirqana.bookrental.application.dto.editorial.EditorialSaveDto;
 import com.pirqana.bookrental.application.service.EditorialService;
+import com.pirqana.bookrental.shared.pagination.RequestPagination;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -56,5 +59,20 @@ public class EditorialController {
     @ApiResponse(responseCode = "404", description = "Not found", content = @Content)
     public ResponseEntity<EditorialDto> disable(@PathVariable("id") Long id) {
         return ResponseEntity.ok(editorialService.disable(id));
+    }
+
+    @PostMapping(value = "/paginatedSearch")
+    public ResponseEntity<Page<EditorialDto>> paginatedSearch(@RequestBody RequestPagination<EditorialFilterDto> requestPagination) {
+        return ResponseEntity.ok(editorialService.paginatedSearch(requestPagination));
+    }
+
+    @PostMapping(value = "search")
+    public ResponseEntity<List<EditorialDto>> searchQuery(@RequestBody EditorialFilterDto editorialFilterDto) {
+        return ResponseEntity.ok(editorialService.searchQuery(editorialFilterDto));
+    }
+
+    @PostMapping(value = "/paginationFilter")
+    public ResponseEntity<Page<EditorialDto>> paginationFilter(@RequestBody RequestPagination<EditorialFilterDto> requestPagination) {
+        return ResponseEntity.ok(editorialService.paginationFilter(requestPagination));
     }
 }

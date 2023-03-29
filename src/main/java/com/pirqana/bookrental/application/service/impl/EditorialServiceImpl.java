@@ -1,12 +1,15 @@
 package com.pirqana.bookrental.application.service.impl;
 
 import com.pirqana.bookrental.application.dto.editorial.EditorialDto;
+import com.pirqana.bookrental.application.dto.editorial.EditorialFilterDto;
 import com.pirqana.bookrental.application.dto.editorial.EditorialSaveDto;
 import com.pirqana.bookrental.application.dto.editorial.mapper.EditorialMapper;
 import com.pirqana.bookrental.application.dto.editorial.mapper.EditorialSaveMapper;
 import com.pirqana.bookrental.application.service.EditorialService;
 import com.pirqana.bookrental.domain.entity.Editorial;
 import com.pirqana.bookrental.infrastructure.repository.EditorialRepository;
+import com.pirqana.bookrental.shared.pagination.RequestPagination;
+import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -60,5 +63,63 @@ public class EditorialServiceImpl implements EditorialService {
         editorial.setEstado(false);
 
         return editorialMapper.toEditorialDto(editorialRepository.save(editorial));
+    }
+
+    @Override
+    public List<EditorialDto> searchQuery(EditorialFilterDto editorialFilterDto) {
+        List<Editorial> editoriales = editorialRepository.searchQuery(
+                editorialFilterDto.getCodigo(),
+                editorialFilterDto.getNombre(),
+                editorialFilterDto.getEstado()
+        );
+        return editorialMapper.toEditorialDtos(editoriales);
+    }
+
+    @Override
+    public Page<EditorialDto> paginatedSearch(RequestPagination<EditorialFilterDto> requestPagination) {
+        Pageable pageable = PageRequest.of(
+                requestPagination.getPage(),
+                requestPagination.getSize(),
+                Sort.by("id").descending()
+        );
+
+        EditorialFilterDto filterDto = requestPagination.getFilter();
+
+        Page<Editorial> editorialPage = editorialRepository.findByCodigoContainingAndNombreContainingAndEstado(
+                filterDto.getCodigo(),
+                filterDto.getNombre(),
+                filterDto.getEstado(),
+                pageable
+        );
+
+        return new PageImpl<>(
+                editorialMapper.toEditorialDtos(editorialPage.getContent()),
+                editorialPage.getPageable(),
+                editorialPage.getTotalPages()
+        );
+    }
+
+    @Override
+    public Page<EditorialDto> paginationFilter(RequestPagination<EditorialFilterDto> requestPagination) {
+        Pageable pageable = PageRequest.of(
+                requestPagination.getPage(),
+                requestPagination.getSize(),
+                Sort.by("id").descending()
+        );
+
+        EditorialFilterDto filterDto = requestPagination.getFilter();
+
+        Page<Editorial> editorialPage = editorialRepository.paginationFilter(
+                filterDto.getCodigo(),
+                filterDto.getNombre(),
+                filterDto.getEstado(),
+                pageable
+        );
+
+        return new PageImpl<>(
+                editorialMapper.toEditorialDtos(editorialPage.getContent()),
+                editorialPage.getPageable(),
+                editorialPage.getTotalPages()
+        );
     }
 }

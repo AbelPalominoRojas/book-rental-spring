@@ -2,15 +2,11 @@ package com.pirqana.bookrental.application.dto.editorial;
 
 import lombok.Data;
 
-import java.time.LocalDateTime;
-
 @Data
-public class EditorialSaveDto {
+public class EditorialFilterDto {
     private String codigo;
 
     private String nombre;
-
-    private LocalDateTime fechaRegistro;
 
     private Boolean estado;
 }
