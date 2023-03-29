@@ -12,6 +12,7 @@ import com.pirqana.bookrental.shared.pagination.RequestPagination;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -45,14 +46,20 @@ public class EditorialServiceImpl implements EditorialService {
     @Override
     public EditorialDto create(EditorialSaveDto editorialSaveDto) {
         Editorial editorial = editorialSaveMapper.toEditorial(editorialSaveDto);
+        editorial.setFechaRegistro(LocalDateTime.now());
+        editorial.setEstado(true);
 
         return editorialMapper.toEditorialDto(editorialRepository.save(editorial));
     }
 
     @Override
     public EditorialDto edit(Long id, EditorialSaveDto editorialSaveDto) {
+        Editorial editorialDb = editorialRepository.findById(id).get();
+
         Editorial editorial = editorialSaveMapper.toEditorial(editorialSaveDto);
         editorial.setId(id);
+        editorial.setFechaRegistro(editorialDb.getFechaRegistro());
+        editorial.setEstado(editorialDb.getEstado());
 
         return editorialMapper.toEditorialDto(editorialRepository.save(editorial));
     }

@@ -13,12 +13,12 @@ public interface SolicitanteSaveMapper {
     @Mapping(source = "documentoIdentidad", target = "documentoIdentidad")
     @Mapping(source = "email", target = "email")
     @Mapping(source = "telefono", target = "telefono")
-    @Mapping(source = "fechaRegistro",target = "fechaRegistro")
-    @Mapping(source = "estado",target = "estado")
     SolicitanteSaveDto toSolicitanteSaveDto(Solicitante solicitante);
 
 
     @InheritInverseConfiguration
     @Mapping(target = "id", ignore = true)
+    @Mapping(target = "fechaRegistro", ignore = true)
+    @Mapping(target = "estado", ignore = true)
     Solicitante toSolicitante(SolicitanteSaveDto solicitanteSaveDto);
 }

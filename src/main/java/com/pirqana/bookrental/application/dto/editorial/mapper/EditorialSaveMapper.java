@@ -11,11 +11,11 @@ public interface EditorialSaveMapper {
 
     @Mapping(source = "codigo",target = "codigo")
     @Mapping(source = "nombre",target = "nombre")
-    @Mapping(source = "fechaRegistro",target = "fechaRegistro")
-    @Mapping(source = "estado",target = "estado")
     EditorialSaveDto toEditorialSaveDto (Editorial editorial);
 
     @InheritInverseConfiguration
     @Mapping(target = "id", ignore = true)
+    @Mapping(target = "fechaRegistro", ignore = true)
+    @Mapping(target = "estado", ignore = true)
     Editorial toEditorial (EditorialSaveDto editorialSaveDto);
 }

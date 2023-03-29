@@ -9,6 +9,7 @@ import com.pirqana.bookrental.domain.entity.Solicitante;
 import com.pirqana.bookrental.infrastructure.repository.SolicitanteRepository;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -43,14 +44,20 @@ public class SolicitanteServiceImpl implements SolicitanteService {
     @Override
     public SolicitanteDto create(SolicitanteSaveDto solicitanteSaveDto) {
         Solicitante solicitante = solicitanteSaveMapper.toSolicitante(solicitanteSaveDto);
+        solicitante.setFechaRegistro(LocalDateTime.now());
+        solicitante.setEstado(true);
 
         return solicitanteMapper.toSolicitanteDto(solicitanteRepository.save(solicitante));
     }
 
     @Override
     public SolicitanteDto edit(Long id, SolicitanteSaveDto solicitanteSaveDto) {
+        Solicitante solicitanteDb = solicitanteRepository.findById(id).get();
+
         Solicitante solicitante = solicitanteSaveMapper.toSolicitante(solicitanteSaveDto);
         solicitante.setId(id);
+        solicitante.setFechaRegistro(solicitanteDb.getFechaRegistro());
+        solicitante.setEstado(solicitanteDb.getEstado());
 
         return solicitanteMapper.toSolicitanteDto(solicitanteRepository.save(solicitante));
     }
