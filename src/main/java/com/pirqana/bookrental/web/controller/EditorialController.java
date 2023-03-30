@@ -4,6 +4,7 @@ import com.pirqana.bookrental.application.dto.editorial.EditorialDto;
 import com.pirqana.bookrental.application.dto.editorial.EditorialFilterDto;
 import com.pirqana.bookrental.application.dto.editorial.EditorialSaveDto;
 import com.pirqana.bookrental.application.service.EditorialService;
+import com.pirqana.bookrental.shared.exception.NotFoundException;
 import com.pirqana.bookrental.shared.pagination.RequestPagination;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -12,6 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -33,15 +35,13 @@ public class EditorialController {
     @ApiResponse(responseCode = "200")
     @ApiResponse(responseCode = "400", description = "Invalid id", content = @Content)
     @ApiResponse(responseCode = "404", description = "Not found", content = @Content)
-    public ResponseEntity<EditorialDto> findById(@PathVariable("id") Long id) {
-        return editorialService.findById(id)
-                .map(editorialDto -> new ResponseEntity<>(editorialDto, HttpStatus.OK))
-                .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
+    public ResponseEntity<EditorialDto> findById(@PathVariable("id") Long id) throws NotFoundException {
+        return ResponseEntity.ok(editorialService.findById(id).get());
     }
 
     @PostMapping
     @ApiResponse(responseCode = "200")
-    public ResponseEntity<EditorialDto> create(@RequestBody EditorialSaveDto editorialSaveDto) {
+    public ResponseEntity<EditorialDto> create(@Valid @RequestBody EditorialSaveDto editorialSaveDto) {
         return ResponseEntity.ok(editorialService.create(editorialSaveDto));
     }
 
@@ -49,7 +49,7 @@ public class EditorialController {
     @ApiResponse(responseCode = "200")
     @ApiResponse(responseCode = "400", description = "Invalid id", content = @Content)
     @ApiResponse(responseCode = "404", description = "Not found", content = @Content)
-    public ResponseEntity<EditorialDto> edit(@PathVariable("id") Long id, @RequestBody EditorialSaveDto editorialSaveDto) {
+    public ResponseEntity<EditorialDto> edit(@PathVariable("id") Long id, @RequestBody EditorialSaveDto editorialSaveDto) throws NotFoundException {
         return ResponseEntity.ok(editorialService.edit(id, editorialSaveDto));
     }
 
@@ -57,7 +57,7 @@ public class EditorialController {
     @ApiResponse(responseCode = "200")
     @ApiResponse(responseCode = "400", description = "Invalid id", content = @Content)
     @ApiResponse(responseCode = "404", description = "Not found", content = @Content)
-    public ResponseEntity<EditorialDto> disable(@PathVariable("id") Long id) {
+    public ResponseEntity<EditorialDto> disable(@PathVariable("id") Long id) throws NotFoundException {
         return ResponseEntity.ok(editorialService.disable(id));
     }
 

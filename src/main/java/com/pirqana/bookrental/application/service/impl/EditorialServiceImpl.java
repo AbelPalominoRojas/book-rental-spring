@@ -8,6 +8,7 @@ import com.pirqana.bookrental.application.dto.editorial.mapper.EditorialSaveMapp
 import com.pirqana.bookrental.application.service.EditorialService;
 import com.pirqana.bookrental.domain.entity.Editorial;
 import com.pirqana.bookrental.infrastructure.repository.EditorialRepository;
+import com.pirqana.bookrental.shared.exception.NotFoundException;
 import com.pirqana.bookrental.shared.pagination.RequestPagination;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
@@ -38,9 +39,10 @@ public class EditorialServiceImpl implements EditorialService {
     }
 
     @Override
-    public Optional<EditorialDto> findById(Long id) {
-        return editorialRepository.findById(id)
-                .map(editorial -> editorialMapper.toEditorialDto(editorial));
+    public Optional<EditorialDto> findById(Long id) throws NotFoundException {
+        return Optional.ofNullable(editorialRepository.findById(id)
+                .map(editorial -> editorialMapper.toEditorialDto(editorial))
+                .orElseThrow(() -> new NotFoundException("Editorial no se encontro para el id: " + id)));
     }
 
     @Override
@@ -53,8 +55,9 @@ public class EditorialServiceImpl implements EditorialService {
     }
 
     @Override
-    public EditorialDto edit(Long id, EditorialSaveDto editorialSaveDto) {
-        Editorial editorialDb = editorialRepository.findById(id).get();
+    public EditorialDto edit(Long id, EditorialSaveDto editorialSaveDto) throws NotFoundException {
+        Editorial editorialDb = editorialRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException("Editorial no se encontro para el id: " + id));
 
         Editorial editorial = editorialSaveMapper.toEditorial(editorialSaveDto);
         editorial.setId(id);
@@ -65,8 +68,9 @@ public class EditorialServiceImpl implements EditorialService {
     }
 
     @Override
-    public EditorialDto disable(Long id) {
-        Editorial editorial = editorialRepository.findById(id).get();
+    public EditorialDto disable(Long id) throws NotFoundException {
+        Editorial editorial = editorialRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException("Editorial no se encontro para el id: " + id));
         editorial.setEstado(false);
 
         return editorialMapper.toEditorialDto(editorialRepository.save(editorial));
