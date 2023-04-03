@@ -1,13 +1,15 @@
 package com.pirqana.bookrental.domain.entity;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "editoriales")
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
 public class Editorial {
 
     @Id
