@@ -106,7 +106,7 @@ public class EditorialServiceImpl implements EditorialService {
         return new PageImpl<>(
                 editorialMapper.toEditorialDtos(editorialPage.getContent()),
                 editorialPage.getPageable(),
-                editorialPage.getTotalPages()
+                editorialPage.getTotalElements()
         );
     }
 
@@ -130,7 +130,7 @@ public class EditorialServiceImpl implements EditorialService {
         return new PageImpl<>(
                 editorialMapper.toEditorialDtos(editorialPage.getContent()),
                 editorialPage.getPageable(),
-                editorialPage.getTotalPages()
+                editorialPage.getTotalElements()
         );
     }
 }

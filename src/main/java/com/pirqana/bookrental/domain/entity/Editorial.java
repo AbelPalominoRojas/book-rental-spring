@@ -10,28 +10,19 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
+@Data
 public class Editorial {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Getter
-    @Setter
     private Long id;
 
-    @Getter
-    @Setter
     private String codigo;
 
-    @Getter
-    @Setter
     private String nombre;
 
     @Column(name = "fecha_registro")
-    @Getter
-    @Setter
     private LocalDateTime fechaRegistro;
 
-    @Getter
-    @Setter
     private Boolean estado;
 }
