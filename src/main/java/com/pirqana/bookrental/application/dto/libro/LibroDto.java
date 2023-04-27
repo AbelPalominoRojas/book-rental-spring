@@ -20,8 +20,6 @@ public class LibroDto {
 
     private Integer anio;
 
-//    private Integer idEditorial;
-
     private EditorialDto editorial;
 
     private LocalDateTime fechaRegistro;

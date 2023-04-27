@@ -24,7 +24,7 @@ public class Libro {
     private Integer anio;
 
     @Column(name = "id_editorial")
-    private Integer idEditorial;
+    private Long idEditorial;
 
     @ManyToOne
     @JoinColumn(name = "id_editorial", insertable = false, updatable = false)
