@@ -7,5 +7,4 @@ import java.util.Map;
 @Data
 public class ResponseException {
     private String message;
-    private Map<String, String> error;
 }
