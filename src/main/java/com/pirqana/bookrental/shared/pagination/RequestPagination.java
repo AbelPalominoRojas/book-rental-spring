@@ -2,6 +2,8 @@ package com.pirqana.bookrental.shared.pagination;
 
 import lombok.Data;
 
+import java.util.Optional;
+
 @Data
 public class RequestPagination<T> {
     private int page;
@@ -10,6 +12,6 @@ public class RequestPagination<T> {
 
     // private Sort sort;
 
-    private T filter;
+    private Optional<T> filter;
 
 }

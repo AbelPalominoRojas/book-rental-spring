@@ -1,10 +1,13 @@
 package com.pirqana.bookrental.web.controller;
 
 import com.pirqana.bookrental.application.dto.libro.LibroDto;
+import com.pirqana.bookrental.application.dto.libro.LibroFilterDto;
 import com.pirqana.bookrental.application.dto.libro.LibroSaveDto;
 import com.pirqana.bookrental.application.service.LibroService;
 import com.pirqana.bookrental.shared.exception.NotFoundException;
+import com.pirqana.bookrental.shared.pagination.RequestPagination;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -28,7 +31,7 @@ public class LibroController {
     }
 
     @PostMapping
-    public ResponseEntity<LibroDto> create(@Valid @RequestBody LibroSaveDto libroSaveDto)  throws NotFoundException {
+    public ResponseEntity<LibroDto> create(@Valid @RequestBody LibroSaveDto libroSaveDto) throws NotFoundException {
         return ResponseEntity.ok(libroService.create(libroSaveDto));
     }
 
@@ -40,5 +43,10 @@ public class LibroController {
     @DeleteMapping("/{id}")
     public ResponseEntity<LibroDto> disable(@PathVariable("id") Long id) throws NotFoundException {
         return ResponseEntity.ok(libroService.disable(id));
+    }
+
+    @PostMapping("/paginatedSearch")
+    public ResponseEntity<Page<LibroDto>> paginatedSearch(@RequestBody RequestPagination<LibroFilterDto> requestPagination) {
+        return ResponseEntity.ok(libroService.paginatedSearch(requestPagination));
     }
 }

@@ -93,7 +93,8 @@ public class EditorialServiceImpl implements EditorialService {
                 Sort.by("id").descending()
         );
 
-        EditorialFilterDto filterDto = requestPagination.getFilter();
+        EditorialFilterDto filterDto = requestPagination.getFilter()
+                .orElse(new EditorialFilterDto());
 
         Page<Editorial> editorialPage = editorialRepository.findByCodigoContainingAndNombreContainingAndEstado(
                 filterDto.getCodigo(),
@@ -117,7 +118,8 @@ public class EditorialServiceImpl implements EditorialService {
                 Sort.by("id").descending()
         );
 
-        EditorialFilterDto filterDto = requestPagination.getFilter();
+        EditorialFilterDto filterDto = requestPagination.getFilter()
+                .orElse(new EditorialFilterDto());
 
         Page<Editorial> editorialPage = editorialRepository.paginationFilter(
                 filterDto.getCodigo(),
