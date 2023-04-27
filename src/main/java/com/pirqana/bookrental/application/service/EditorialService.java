@@ -13,7 +13,7 @@ import java.util.Optional;
 public interface EditorialService {
     List<EditorialDto> findAll();
 
-    Optional<EditorialDto> findById(Long id) throws NotFoundException;
+    EditorialDto findById(Long id) throws NotFoundException;
 
     EditorialDto create(EditorialSaveDto editorialSaveDto);
 

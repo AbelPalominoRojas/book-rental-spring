@@ -3,20 +3,20 @@ package com.pirqana.bookrental.web.controller;
 import com.pirqana.bookrental.application.dto.solicitante.SolicitanteDto;
 import com.pirqana.bookrental.application.dto.solicitante.SolicitanteSaveDto;
 import com.pirqana.bookrental.application.service.SolicitanteService;
+import com.pirqana.bookrental.shared.exception.NotFoundException;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
-import java.util.Optional;
 
+@RequiredArgsConstructor
 @RestController
 @RequestMapping("/solicitantes")
 public class SolicitanteController {
 
-    private SolicitanteService solicitanteService;
-
-    public SolicitanteController(SolicitanteService solicitanteService) {
-        this.solicitanteService = solicitanteService;
-    }
+    private final SolicitanteService solicitanteService;
 
     @GetMapping
     public List<SolicitanteDto> getAll() {
@@ -24,22 +24,22 @@ public class SolicitanteController {
     }
 
     @GetMapping("/{id}")
-    public Optional<SolicitanteDto> findById(@PathVariable("id") Long id) {
-        return solicitanteService.findById(id);
+    public ResponseEntity<SolicitanteDto> findById(@PathVariable("id") Long id) throws NotFoundException {
+        return ResponseEntity.ok(solicitanteService.findById(id));
     }
 
     @PostMapping
-    public SolicitanteDto create(@RequestBody SolicitanteSaveDto solicitanteSaveDto) {
-        return solicitanteService.create(solicitanteSaveDto);
+    public ResponseEntity<SolicitanteDto> create(@Valid @RequestBody SolicitanteSaveDto solicitanteSaveDto) {
+        return ResponseEntity.ok(solicitanteService.create(solicitanteSaveDto));
     }
 
     @PutMapping("/{id}")
-    public SolicitanteDto edit(@PathVariable("id") Long id, @RequestBody SolicitanteSaveDto solicitanteSaveDto) {
-        return solicitanteService.edit(id, solicitanteSaveDto);
+    public ResponseEntity<SolicitanteDto> edit(@PathVariable("id") Long id, @Valid @RequestBody SolicitanteSaveDto solicitanteSaveDto) throws NotFoundException {
+        return ResponseEntity.ok(solicitanteService.edit(id, solicitanteSaveDto));
     }
 
     @DeleteMapping("/{id}")
-    public SolicitanteDto disable(@PathVariable("id") Long id) {
-        return solicitanteService.disable(id);
+    public ResponseEntity<SolicitanteDto> disable(@PathVariable("id") Long id) throws NotFoundException {
+        return ResponseEntity.ok(solicitanteService.disable(id));
     }
 }

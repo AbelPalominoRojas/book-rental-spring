@@ -10,39 +10,38 @@ import com.pirqana.bookrental.domain.entity.Editorial;
 import com.pirqana.bookrental.infrastructure.repository.EditorialRepository;
 import com.pirqana.bookrental.shared.exception.NotFoundException;
 import com.pirqana.bookrental.shared.pagination.RequestPagination;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
+@RequiredArgsConstructor
 @Service
 public class EditorialServiceImpl implements EditorialService {
 
-    private EditorialRepository editorialRepository;
+    private final EditorialRepository editorialRepository;
 
-    private EditorialMapper editorialMapper;
+    private final EditorialMapper editorialMapper;
 
-    private EditorialSaveMapper editorialSaveMapper;
+    private final EditorialSaveMapper editorialSaveMapper;
 
-    public EditorialServiceImpl(EditorialRepository editorialRepository, EditorialMapper editorialMapper, EditorialSaveMapper editorialSaveMapper) {
-        this.editorialRepository = editorialRepository;
-        this.editorialMapper = editorialMapper;
-        this.editorialSaveMapper = editorialSaveMapper;
-    }
 
     @Override
     public List<EditorialDto> findAll() {
-        List<Editorial> editoriales = editorialRepository.findByEstadoOrderByIdDesc(true).get();
+        List<Editorial> editoriales = editorialRepository.findByEstadoOrderByIdDesc(true)
+                .orElse(new ArrayList<>());
         return editorialMapper.toEditorialDtos(editoriales);
     }
 
     @Override
-    public Optional<EditorialDto> findById(Long id) throws NotFoundException {
-        return Optional.ofNullable(editorialRepository.findById(id)
-                .map(editorial -> editorialMapper.toEditorialDto(editorial))
-                .orElseThrow(() -> new NotFoundException("Editorial no se encontro para el id: " + id)));
+    public EditorialDto findById(Long id) throws NotFoundException {
+        Editorial libro = editorialRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException("Editorial no se encontro para el id: " + id));
+
+        return editorialMapper.toEditorialDto(libro);
     }
 
     @Override

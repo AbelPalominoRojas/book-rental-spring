@@ -7,38 +7,40 @@ import com.pirqana.bookrental.application.dto.solicitante.mapper.SolicitanteSave
 import com.pirqana.bookrental.application.service.SolicitanteService;
 import com.pirqana.bookrental.domain.entity.Solicitante;
 import com.pirqana.bookrental.infrastructure.repository.SolicitanteRepository;
+import com.pirqana.bookrental.shared.exception.NotFoundException;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+@RequiredArgsConstructor
 @Service
 public class SolicitanteServiceImpl implements SolicitanteService {
 
-    SolicitanteRepository solicitanteRepository;
+    private final SolicitanteRepository solicitanteRepository;
 
-    SolicitanteMapper solicitanteMapper;
+    private final SolicitanteMapper solicitanteMapper;
 
-    SolicitanteSaveMapper solicitanteSaveMapper;
+    private final SolicitanteSaveMapper solicitanteSaveMapper;
 
-    public SolicitanteServiceImpl(SolicitanteRepository solicitanteRepository, SolicitanteMapper solicitanteMapper, SolicitanteSaveMapper solicitanteSaveMapper) {
-        this.solicitanteRepository = solicitanteRepository;
-        this.solicitanteMapper = solicitanteMapper;
-        this.solicitanteSaveMapper = solicitanteSaveMapper;
-    }
 
     @Override
     public List<SolicitanteDto> findAll() {
-        List<Solicitante> solicitantes = solicitanteRepository.findByEstadoOrderByIdDesc(true).get();
+        List<Solicitante> solicitantes = solicitanteRepository.findByEstadoOrderByIdDesc(true)
+                .orElse(new ArrayList<>());
 
         return solicitanteMapper.toSolicitanteDtos(solicitantes);
     }
 
     @Override
-    public Optional<SolicitanteDto> findById(Long id) {
-        return solicitanteRepository.findById(id)
-                .map(solicitante -> solicitanteMapper.toSolicitanteDto(solicitante));
+    public SolicitanteDto findById(Long id) throws NotFoundException {
+        Solicitante solicitante = solicitanteRepository.findById(id)
+                .orElseThrow(()-> new NotFoundException("Editorial no se encontro para el id: " + id));
+
+        return solicitanteMapper.toSolicitanteDto(solicitante);
     }
 
     @Override
@@ -51,8 +53,9 @@ public class SolicitanteServiceImpl implements SolicitanteService {
     }
 
     @Override
-    public SolicitanteDto edit(Long id, SolicitanteSaveDto solicitanteSaveDto) {
-        Solicitante solicitanteDb = solicitanteRepository.findById(id).get();
+    public SolicitanteDto edit(Long id, SolicitanteSaveDto solicitanteSaveDto) throws NotFoundException {
+        Solicitante solicitanteDb = solicitanteRepository.findById(id)
+                .orElseThrow(()-> new NotFoundException("Editorial no se encontro para el id: " + id));;
 
         Solicitante solicitante = solicitanteSaveMapper.toSolicitante(solicitanteSaveDto);
         solicitante.setId(id);
@@ -63,8 +66,9 @@ public class SolicitanteServiceImpl implements SolicitanteService {
     }
 
     @Override
-    public SolicitanteDto disable(Long id) {
-        Solicitante solicitante = solicitanteRepository.findById(id).get();
+    public SolicitanteDto disable(Long id) throws NotFoundException {
+        Solicitante solicitante = solicitanteRepository.findById(id)
+                .orElseThrow(()-> new NotFoundException("Editorial no se encontro para el id: " + id));
         solicitante.setEstado(false);
 
         return solicitanteMapper.toSolicitanteDto(solicitante);

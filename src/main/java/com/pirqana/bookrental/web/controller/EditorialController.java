@@ -39,7 +39,7 @@ public class EditorialController {
     @ApiResponse(responseCode = "400", description = "Invalid id", content = @Content)
     @ApiResponse(responseCode = "404", description = "Not found", content = @Content)
     public ResponseEntity<EditorialDto> findById(@PathVariable("id") Long id) throws NotFoundException {
-        return ResponseEntity.ok(editorialService.findById(id).get());
+        return ResponseEntity.ok(editorialService.findById(id));
     }
 
     @PostMapping
