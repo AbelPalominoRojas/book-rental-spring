@@ -3,8 +3,10 @@ package com.pirqana.bookrental.application.service.impl;
 import com.pirqana.bookrental.application.dto.editorial.EditorialDto;
 import com.pirqana.bookrental.application.dto.editorial.EditorialFilterDto;
 import com.pirqana.bookrental.application.dto.editorial.EditorialSaveDto;
+import com.pirqana.bookrental.application.dto.editorial.EditorialSimpleDto;
 import com.pirqana.bookrental.application.dto.editorial.mapper.EditorialMapper;
 import com.pirqana.bookrental.application.dto.editorial.mapper.EditorialSaveMapper;
+import com.pirqana.bookrental.application.dto.editorial.mapper.EditorialSimpleMapper;
 import com.pirqana.bookrental.application.service.EditorialService;
 import com.pirqana.bookrental.domain.entity.Editorial;
 import com.pirqana.bookrental.infrastructure.repository.EditorialRepository;
@@ -27,6 +29,8 @@ public class EditorialServiceImpl implements EditorialService {
     private final EditorialMapper editorialMapper;
 
     private final EditorialSaveMapper editorialSaveMapper;
+
+    private final EditorialSimpleMapper editorialSimpleMapper;
 
 
     @Override
@@ -133,5 +137,13 @@ public class EditorialServiceImpl implements EditorialService {
                 editorialPage.getPageable(),
                 editorialPage.getTotalElements()
         );
+    }
+
+    @Override
+    public List<EditorialSimpleDto> findAllSimple() {
+        List<Editorial> editoriales = editorialRepository.findByEstadoOrderByIdDesc(true)
+                .orElse(new ArrayList<>());
+
+        return editorialSimpleMapper.toEditorialSimpleDtos(editoriales);
     }
 }

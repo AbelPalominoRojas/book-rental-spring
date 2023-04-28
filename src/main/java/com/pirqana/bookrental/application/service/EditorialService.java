@@ -3,6 +3,7 @@ package com.pirqana.bookrental.application.service;
 import com.pirqana.bookrental.application.dto.editorial.EditorialDto;
 import com.pirqana.bookrental.application.dto.editorial.EditorialFilterDto;
 import com.pirqana.bookrental.application.dto.editorial.EditorialSaveDto;
+import com.pirqana.bookrental.application.dto.editorial.EditorialSimpleDto;
 import com.pirqana.bookrental.shared.exception.NotFoundException;
 import com.pirqana.bookrental.shared.pagination.RequestPagination;
 import org.springframework.data.domain.Page;
@@ -26,4 +27,6 @@ public interface EditorialService {
     Page<EditorialDto> paginatedSearch(RequestPagination<EditorialFilterDto> requestPagination);
 
     Page<EditorialDto> paginationFilter(RequestPagination<EditorialFilterDto> requestPagination);
+
+    List<EditorialSimpleDto> findAllSimple();
 }
