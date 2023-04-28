@@ -9,10 +9,8 @@ import org.mapstruct.Mapping;
 
 import java.util.List;
 
-@Mapper(componentModel = "spring", uses = {PrestamoMapper.class, LibroMapper.class})
+@Mapper(componentModel = "spring", uses = {LibroMapper.class})
 public interface PrestamoDetalleMapper {
-
-    //    @Mapping(source = "id.idLibro", target = "idLibro")
     @Mapping(source = "libro", target = "libro")
     @Mapping(source = "devuelto", target = "devuelto")
     @Mapping(source = "mora", target = "mora")

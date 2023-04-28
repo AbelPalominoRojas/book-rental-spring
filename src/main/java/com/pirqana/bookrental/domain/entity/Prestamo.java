@@ -30,7 +30,7 @@ public class Prestamo {
     @JoinColumn(name = "id_solicitante", insertable = false, updatable = false)
     private Solicitante solicitante;
 
-    @OneToMany(mappedBy = "prestamo", cascade = {CascadeType.ALL})
+    @OneToMany(mappedBy = "prestamo", cascade = {CascadeType.ALL}, orphanRemoval = true)
     private List<PrestamoDetalle> detalles;
 
     @Column(name = "fecha_registro")

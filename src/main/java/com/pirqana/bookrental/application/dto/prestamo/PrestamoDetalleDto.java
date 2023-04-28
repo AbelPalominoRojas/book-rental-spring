@@ -8,9 +8,6 @@ import java.time.LocalDateTime;
 
 @Data
 public class PrestamoDetalleDto {
-//    private Long idPrestamo;
-
-//    private Long idLibro;
 
     private LibroDto libro;
 

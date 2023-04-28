@@ -16,8 +16,6 @@ public class PrestamoDto {
 
     private Integer estadoPrestamo;
 
-//    private Long idSolicitante;
-
     private SolicitanteDto solicitante;
 
     private List<PrestamoDetalleDto> detalles;

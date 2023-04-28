@@ -18,7 +18,7 @@ public class PrestamoDetalle {
     private BigDecimal mora;
 
     @ManyToOne
-    @MapsId("id")
+    @MapsId("idPrestamo")
     @JoinColumn(name = "id_prestamo", insertable = false, updatable = false)
     private Prestamo prestamo;
 
