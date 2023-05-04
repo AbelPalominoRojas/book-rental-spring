@@ -4,6 +4,7 @@ import com.pirqana.bookrental.application.dto.editorial.EditorialDto;
 import com.pirqana.bookrental.application.dto.editorial.EditorialSaveDto;
 import com.pirqana.bookrental.application.dto.editorial.mapper.EditorialMapper;
 import com.pirqana.bookrental.application.dto.editorial.mapper.EditorialSaveMapper;
+import com.pirqana.bookrental.application.dto.editorial.mapper.EditorialSimpleMapper;
 import com.pirqana.bookrental.application.service.EditorialService;
 import com.pirqana.bookrental.application.service.impl.EditorialServiceImpl;
 import com.pirqana.bookrental.domain.entity.Editorial;
@@ -32,6 +33,9 @@ public class EditorialServiceMockTest {
 
     @Autowired
     private EditorialSaveMapper editorialSaveMapper;
+    
+    @Autowired
+    private EditorialSimpleMapper editorialSimpleMapper;
 
     private EditorialService editorialService;
     private AutoCloseable closeable;
@@ -40,7 +44,7 @@ public class EditorialServiceMockTest {
     @BeforeEach
     public void setup() {
         closeable = MockitoAnnotations.openMocks(this);
-        editorialService = new EditorialServiceImpl(editorialRepository, editorialMapper, editorialSaveMapper);
+        editorialService = new EditorialServiceImpl(editorialRepository, editorialMapper, editorialSaveMapper, editorialSimpleMapper);
 
         Editorial editorial = Editorial.builder()
                 .id(1L)
@@ -63,7 +67,7 @@ public class EditorialServiceMockTest {
 
     @Test
     public void canFindEditoriaByID() throws NotFoundException {
-        EditorialDto editorialDto = editorialService.findById(1L).get();
+        EditorialDto editorialDto = editorialService.findById(1L);
 
         Assertions.assertThat(editorialDto.getCodigo()).isEqualTo("EDI00001");
     }
