@@ -9,7 +9,6 @@ import com.pirqana.bookrental.shared.pagination.RequestPagination;
 import org.springframework.data.domain.Page;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface EditorialService {
     List<EditorialDto> findAll();

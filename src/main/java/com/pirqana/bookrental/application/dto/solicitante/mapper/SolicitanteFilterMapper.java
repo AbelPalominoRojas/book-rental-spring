@@ -1,6 +1,5 @@
 package com.pirqana.bookrental.application.dto.solicitante.mapper;
 
-import com.pirqana.bookrental.application.dto.solicitante.SolicitanteDto;
 import com.pirqana.bookrental.application.dto.solicitante.SolicitanteFilterDto;
 import com.pirqana.bookrental.domain.entity.Solicitante;
 import org.mapstruct.InheritInverseConfiguration;
@@ -17,6 +16,8 @@ public interface SolicitanteFilterMapper {
     @Mapping(source = "estado",target = "estado")
     SolicitanteFilterDto toSolicitanteFilterDto (Solicitante solicitante);
 
-    @InheritInverseConfiguration
+    @Mapping(target = "fechaRegistro", ignore = true)
+	@Mapping(target = "id", ignore = true)
+	@InheritInverseConfiguration
     Solicitante toSolicitante(SolicitanteFilterDto solicitanteFilterDto);
 }

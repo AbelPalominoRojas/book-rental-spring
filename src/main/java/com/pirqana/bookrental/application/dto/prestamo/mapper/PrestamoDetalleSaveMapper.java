@@ -17,7 +17,11 @@ public interface PrestamoDetalleSaveMapper {
 
     List<PrestamoDetalleSaveDto> toPrestamoDetalleSaveDtos(List<PrestamoDetalle> detalles);
 
-    @InheritInverseConfiguration
+    @Mapping(target = "estado", ignore = true)
+	@Mapping(target = "fechaRegistro", ignore = true)
+	@Mapping(target = "libro", ignore = true)
+	@Mapping(target = "prestamo", ignore = true)
+	@InheritInverseConfiguration
     PrestamoDetalle toPrestamoDetalle(PrestamoDetalleSaveDto detalleSaveDto);
 
 }

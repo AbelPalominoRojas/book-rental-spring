@@ -17,6 +17,9 @@ public interface LibroFilterMapper {
     @Mapping(source = "estado", target = "estado")
     LibroFilterDto toLibroSaveDto(Libro libro);
 
-    @InheritInverseConfiguration
+    @Mapping(target = "editorial", ignore = true)
+	@Mapping(target = "fechaRegistro", ignore = true)
+	@Mapping(target = "id", ignore = true)
+	@InheritInverseConfiguration
     Libro toLibro(LibroFilterDto libroFilterDto);
 }

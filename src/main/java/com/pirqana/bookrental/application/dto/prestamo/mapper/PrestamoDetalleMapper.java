@@ -20,6 +20,8 @@ public interface PrestamoDetalleMapper {
 
     List<PrestamoDetalleDto> toPrestamoDetalleDtos(List<PrestamoDetalle> detalles);
 
-    @InheritInverseConfiguration
+    @Mapping(target = "id", ignore = true)
+	@Mapping(target = "prestamo", ignore = true)
+	@InheritInverseConfiguration
     PrestamoDetalle toPrestamoDetalle(PrestamoDetalleDto detalleDto);
 }

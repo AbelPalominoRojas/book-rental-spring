@@ -25,6 +25,7 @@ public interface LibroMapper {
 
     List<LibroDto> toLibroDtos(List<Libro> libros);
 
-    @InheritInverseConfiguration
+    @Mapping(target = "idEditorial", ignore = true)
+	@InheritInverseConfiguration
     Libro toLibro(LibroDto libroDto);
 }

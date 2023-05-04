@@ -20,6 +20,10 @@ public interface PrestamoSaveMapper {
 
     List<PrestamoSaveDto> toPrestamoSaveDtoList(List<Prestamo> prestamos);
 
-    @InheritInverseConfiguration
+    @Mapping(target = "estado", ignore = true)
+	@Mapping(target = "fechaRegistro", ignore = true)
+	@Mapping(target = "id", ignore = true)
+	@Mapping(target = "solicitante", ignore = true)
+	@InheritInverseConfiguration
     Prestamo toPrestamo(PrestamoSaveDto prestamoSaveDto);
 }

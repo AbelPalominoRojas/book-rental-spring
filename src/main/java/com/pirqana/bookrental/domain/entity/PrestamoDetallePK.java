@@ -15,7 +15,9 @@ import java.io.Serializable;
 @Data
 @Embeddable
 public class PrestamoDetallePK implements Serializable {
-    @Column(name = "id_prestamo")
+    private static final long serialVersionUID = 1L;
+
+	@Column(name = "id_prestamo")
     private Long idPrestamo;
 
     @Column(name = "id_libro")

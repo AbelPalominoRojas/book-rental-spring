@@ -1,6 +1,5 @@
 package com.pirqana.bookrental.application.dto.editorial.mapper;
 
-import com.pirqana.bookrental.application.dto.editorial.EditorialDto;
 import com.pirqana.bookrental.application.dto.editorial.EditorialSimpleDto;
 import com.pirqana.bookrental.domain.entity.Editorial;
 import org.mapstruct.Mapper;

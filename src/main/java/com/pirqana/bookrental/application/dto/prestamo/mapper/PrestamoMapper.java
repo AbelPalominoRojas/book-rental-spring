@@ -24,6 +24,7 @@ public interface PrestamoMapper {
 
     List<PrestamoDto> toPrestamoDtos(List<Prestamo> prestamos);
 
-    @InheritInverseConfiguration
+    @Mapping(target = "idSolicitante", ignore = true)
+	@InheritInverseConfiguration
     Prestamo toPrestamo(PrestamoDto prestamoDto);
 }
